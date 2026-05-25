@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vantilatör Rehberi — Serin Bir Yaz İçin Her Şey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f4ede0;
+  --ink: #1a1410;
+  --rust: #b8412a;
+  --ochre: #d49b3f;
+  --olive: #5a5230;
+  --paper: #ebe2d0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter Tight', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(184, 65, 42, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 155, 63, 0.05) 0%, transparent 50%);
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: multiply;
+}
+
+/* === HEADER === */
+header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: var(--cream);
+  z-index: 50;
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  animation: spin 6s linear infinite;
+}
+
+nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+nav a {
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s;
+}
+
+nav a:hover { color: var(--rust); }
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--rust);
+  transition: width 0.3s;
+}
+
+nav a:hover::after { width: 100%; }
+
+/* === HERO === */
+.hero {
+  padding: 6rem 2rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+}
+
+.hero-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--rust);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--rust);
+}
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+}
+
+h1 .italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--rust);
+}
+
+.hero p {
+  font-size: 1.15rem;
+  max-width: 480px;
+  color: var(--olive);
+  margin-bottom: 2rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stat {
+  border-left: 2px solid var(--rust);
+  padding-left: 0.8rem;
+}
+
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 800;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+}
+
+/* Big spinning fan in hero */
+.hero-fan {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 420px;
+  justify-self: end;
+}
+
+.fan-svg {
+  width: 100%;
+  height: 100%;
+  animation: spin 4s linear infinite;
+}
+
+.fan-bg {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--paper) 0%, transparent 70%);
+}
+
+.fan-bg::after {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border: 1px dashed var(--olive);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === SECTIONS === */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  padding-bottom: 1.5rem;
+}
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--rust);
+  letter-spacing: 0.15em;
+}
+
+h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+h2 .italic {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* About / Nasıl Çalışır */
+.how-it-works {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.how-card {
+  padding: 1.5rem;
+  background: var(--paper);
+  border: 1px solid rgba(26, 20, 16, 0.1);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.how-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.how-card-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--rust);
+  line-height: 1;
+}
+
+.how-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.how-card p {
+  font-size: 0.95rem;
+  color: var(--olive);
+}
+
+/* Types of fans */
+.types-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.type {
+  background: var(--cream);
+  padding: 2rem;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.type:hover {
+  background: var(--paper);
+}
+
+.type-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--rust);
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--rust);
+}
+
+.type h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.02em;
+}
+
+.type p {
+  color: var(--olive);
+  font-size: 0.95rem;
+}
+
+/* Tips section */
+.tips {
+  background: var(--ink);
+  color: var(--cream);
+  margin: 0;
+  max-width: 100%;
+  padding: 5rem 2rem;
+}
+
+.tips-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.tips .section-header {
+  border-color: rgba(244, 237, 224, 0.2);
+}
+
+.tips h2 { color: var(--cream); }
+.tips .section-num { color: var(--ochre); }
+
+.tips-list {
+  list-style: none;
+  counter-reset: tip;
+}
+
+.tips-list li {
+  counter-increment: tip;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(244, 237, 224, 0.15);
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.tips-list li::before {
+  content: counter(tip, decimal-leading-zero);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 2rem;
+  color: var(--ochre);
+  font-weight: 400;
+}
+
+.tips-list h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.tips-list p {
+  color: rgba(244, 237, 224, 0.7);
+  font-size: 0.95rem;
+}
+
+/* Maintenance */
+.maintenance {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.maintenance-text p {
+  margin-bottom: 1rem;
+  color: var(--olive);
+}
+
+.maintenance-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.checklist {
+  background: var(--paper);
+  padding: 2rem;
+  border-left: 4px solid var(--rust);
+}
+
+.checklist h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.checklist ul {
+  list-style: none;
+}
+
+.checklist li {
+  padding: 0.6rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+  border-bottom: 1px dashed rgba(26, 20, 16, 0.2);
+  font-size: 0.95rem;
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--rust);
+  font-weight: 700;
+}
+
+/* Footer */
+footer {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+}
+
+footer .logo {
+  justify-content: center;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+footer p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(244, 237, 224, 0.5);
+  letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+  }
+  .hero-fan { max-width: 280px; justify-self: center; }
+  .how-it-works { grid-template-columns: 1fr; }
+  .types-grid { grid-template-columns: 1fr; }
+  .maintenance { grid-template-columns: 1fr; }
+  nav ul { gap: 1rem; font-size: 0.65rem; }
+  .hero-stats { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="#1a1410" stroke-width="2"/>
+      <path d="M20 20 Q12 8 20 4 Q28 8 20 20" fill="#b8412a"/>
+      <path d="M20 20 Q32 12 36 20 Q32 28 20 20" fill="#b8412a"/>
+      <path d="M20 20 Q28 32 20 36 Q12 32 20 20" fill="#b8412a"/>
+      <path d="M20 20 Q8 28 4 20 Q8 12 20 20" fill="#b8412a"/>
+      <circle cx="20" cy="20" r="3" fill="#1a1410"/>
+    </svg>
+    Vantilatör Rehberi
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#calisma">Çalışma</a></li>
+      <li><a href="#tipler">Tipler</a></li>
+      <li><a href="#tavsiyeler">Tavsiyeler</a></li>
+      <li><a href="#bakim">Bakım</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-label">Yazın En İyi Dostu — Est. 1882</div>
+    <h1>Sıcağa karşı <span class="italic">en zarif</span> direniş.</h1>
+    <p>Vantilatörler 140 yılı aşkın süredir evlerimizi serinletiyor. Bu rehberde nasıl çalıştıklarından doğru modeli seçmeye, uzun ömürlü kullanmaktan enerji tasarrufuna kadar bilmen gereken her şey var.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">35W</span>
+        <span class="stat-label">Ortalama Tüketim</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">1882</span>
+        <span class="stat-label">İlk Elektrikli</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">6+</span>
+        <span class="stat-label">Çeşit Vantilatör</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-fan">
+    <div class="fan-bg"></div>
+    <svg class="fan-svg" viewBox="0 0 200 200">
+      <g transform="translate(100,100)">
+        <path d="M0 0 Q-40 -60 0 -90 Q40 -60 0 0" fill="#b8412a" opacity="0.9"/>
+        <path d="M0 0 Q60 -40 90 0 Q60 40 0 0" fill="#d49b3f" opacity="0.9"/>
+        <path d="M0 0 Q40 60 0 90 Q-40 60 0 0" fill="#b8412a" opacity="0.9"/>
+        <path d="M0 0 Q-60 40 -90 0 Q-60 -40 0 0" fill="#d49b3f" opacity="0.9"/>
+        <circle r="14" fill="#1a1410"/>
+        <circle r="6" fill="#b8412a"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- NASIL ÇALIŞIR -->
+<section id="calisma">
+  <div class="section-header">
+    <h2>Nasıl <span class="italic">çalışır?</span></h2>
+    <span class="section-num">01 / BÖLÜM</span>
+  </div>
+  <div class="how-it-works">
+    <div class="how-card">
+      <span class="how-card-num">i.</span>
+      <h3>Elektrik Motoru</h3>
+      <p>Vantilatörün kalbi, genellikle indüksiyon tipi bir elektrik motorudur. Şebekeden gelen alternatif akım, dönen bir manyetik alan yaratır ve rotoru harekete geçirir.</p>
+    </div>
+    <div class="how-card">
+      <span class="how-card-num">ii.</span>
+      <h3>Eğimli Kanatlar</h3>
+      <p>Motora bağlı kanatlar belirli bir açıyla yerleştirilmiştir. Döndüklerinde önlerindeki havayı iter, arkalarında ise düşük basınç oluşturarak sürekli bir hava akımı yaratır.</p>
+    </div>
+    <div class="how-card">
+      <span class="how-card-num">iii.</span>
+      <h3>Serinletme Etkisi</h3>
+      <p>Vantilatör havayı aslında soğutmaz — terlemenin buharlaşmasını hızlandırarak vücut sıcaklığını düşürür. Bu yüzden boş odada çalıştırmak boşunadır.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TİPLER -->
+<section id="tipler">
+  <div class="section-header">
+    <h2>Vantilatör <span class="italic">çeşitleri</span></h2>
+    <span class="section-num">02 / BÖLÜM</span>
+  </div>
+  <div class="types-grid">
+    <div class="type">
+      <span class="type-tag">— Klasik</span>
+      <h3>Ayaklı Vantilatör</h3>
+      <p>En yaygın tip. Yüksekliği ayarlanabilir, taşınabilir ve genelde salınımlıdır. Geniş alanları havalandırmak için idealdir. 40–50W tüketir.</p>
+    </div>
+    <div class="type">
+      <span class="type-tag">— Kompakt</span>
+      <h3>Masaüstü</h3>
+      <p>Küçük, sessiz ve kişisel kullanım için biçilmiş kaftan. Çalışma masası veya komodin için uygundur, 20–30W ile düşük enerji tüketir.</p>
+    </div>
+    <div class="type">
+      <span class="type-tag">— Modern</span>
+      <h3>Kule Vantilatör</h3>
+      <p>Dikey ve dar tasarımı sayesinde yer kaplamaz. Genellikle uzaktan kumandalı, zamanlayıcılı ve birden fazla hız modu sunar. Sessiz çalışır.</p>
+    </div>
+    <div class="type">
+      <span class="type-tag">— Tavandan</span>
+      <h3>Tavan Vantilatörü</h3>
+      <p>Tüm odayı eşit dağılımla havalandırır. Yazın aşağıya, kışın ise yukarıya çalışarak sıcak havayı tavanda dengeler. En verimli seçenektir.</p>
+    </div>
+    <div class="type">
+      <span class="type-tag">— Profesyonel</span>
+      <h3>Sanayi Tipi</h3>
+      <p>Atölye, depo ve büyük mekânlar için tasarlanmıştır. Yüksek hava debisi ve dayanıklı motoruyla 100W üzerinde güç tüketir.</p>
+    </div>
+    <div class="type">
+      <span class="type-tag">— Pencereye</span>
+      <h3>Şarjlı / Pilli</h3>
+      <p>Elektrik kesintilerinde veya açık havada kullanım için ideal. USB ile şarj olabilen modeller son yıllarda popülerlik kazandı.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TAVSİYELER -->
+<section class="tips" id="tavsiyeler">
+  <div class="tips-inner">
+    <div class="section-header">
+      <h2>Seçim için <span class="italic">altın kurallar</span></h2>
+      <span class="section-num">03 / BÖLÜM</span>
+    </div>
+    <ul class="tips-list">
+      <li>
+        <div>
+          <h3>Oda büyüklüğünü hesapla</h3>
+          <p>15 m² altı odalar için masaüstü veya 30 cm kanat çapı yeterli. 15–30 m² için 40 cm ayaklı ya da kule, 30 m² üstü için tavan vantilatörü tercih edilmelidir.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Desibele dikkat et</h3>
+          <p>Uyurken çalıştıracaksan 50 dB altı sessiz sayılır. Kule modelleri genellikle daha az gürültü yapar; ucuz ayaklı modeller ise yıprandıkça ses çıkarmaya başlar.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Kanat sayısı = sessizlik</h3>
+          <p>Daha fazla kanat = daha düşük hız = daha sessiz. 5 kanatlı bir vantilatör 3 kanatlıdan genellikle daha az ses çıkarır, ama hava debisi de bir miktar düşer.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Salınım açısı</h3>
+          <p>Sabit yön yerine salınımlı (osilasyonlu) modeller havayı odaya yayar. 90 derece standarttır; bazı modeller 180 dereceye kadar çıkar.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Zamanlayıcı ve uzaktan kumanda</h3>
+          <p>Geceleri kapatma derdi yaşamamak için zamanlayıcılı modeller önerilir. Uyku modu olan vantilatörler hızı saat ilerledikçe kademeli azaltır.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Enerji etiketini kontrol et</h3>
+          <p>Türkiye'de satılan vantilatörlerin watt değeri etikette belirtilir. 8 saatlik kullanımda 50W'lık bir cihaz yaklaşık 0,4 kWh tüketir — günde 1 TL civarı.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- BAKIM -->
+<section id="bakim">
+  <div class="section-header">
+    <h2>Bakım ve <span class="italic">uzun ömür</span></h2>
+    <span class="section-num">04 / BÖLÜM</span>
+  </div>
+  <div class="maintenance">
+    <div class="maintenance-text">
+      <p>Vantilatörler doğru bakıldığında <strong>10–15 yıl</strong> sorunsuz çalışabilir. En büyük düşmanları toz ve bakımsızlıktır. Kanatlarda biriken toz hem hava akımını azaltır hem motoru zorlar.</p>
+      <p>Mevsim sonunda mutlaka derin temizlik yapılmalı, kullanılmadığı dönemde nemden uzak bir yerde saklanmalıdır. <strong>Yağlama gerektiren modellerde</strong> yılda bir kez motor mili dikiş makinesi yağı ile yağlanabilir.</p>
+      <p>Kabloda çatlak, fişte kararma veya çalışırken anormal ses geliyorsa <strong>derhal yetkili servise</strong> götürülmelidir; kendi başına müdahale etmek elektrik çarpması riski taşır.</p>
+    </div>
+    <div class="checklist">
+      <h3>Sezon sonu temizlik listesi</h3>
+      <ul>
+        <li>Fişi mutlaka prizden çıkar</li>
+        <li>Ön ve arka kafesi sök</li>
+        <li>Kanatları ılık sabunlu suyla yıka</li>
+        <li>Motor gövdesini nemli bezle sil</li>
+        <li>Tamamen kuruduğuna emin ol</li>
+        <li>Orijinal kutusunda veya bezle ört</li>
+        <li>Nemsiz, serin bir yerde sakla</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="#f4ede0" stroke-width="2"/>
+      <path d="M20 20 Q12 8 20 4 Q28 8 20 20" fill="#d49b3f"/>
+      <path d="M20 20 Q32 12 36 20 Q32 28 20 20" fill="#d49b3f"/>
+      <path d="M20 20 Q28 32 20 36 Q12 32 20 20" fill="#d49b3f"/>
+      <path d="M20 20 Q8 28 4 20 Q8 12 20 20" fill="#d49b3f"/>
+      <circle cx="20" cy="20" r="3" fill="#f4ede0"/>
+    </svg>
+    Vantilatör Rehberi
+  </div>
+  <p>SERİN KAL — TASARRUF ET — UZUN ÖMÜR — © MMXXVI</p>
+</footer>
+
+</body>
+</html>
